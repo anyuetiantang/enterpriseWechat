@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>企业微信测试</title>
+
+        <script type="text/javascript" src="./js/jquery/jquery-1.10.2.min.js"></script>
+    </head>
+<body>
+    suiteId:<input id="suite_id" type="text"><br>
+    suite_secret:<input id="suite_secret" type="text"><br>
+    suite_ticket:<input id="suite_ticket" type="text"><br>
+    <button onclick="getAccesssToken()">获取access_token</button>
+    <button onclick="oauthLink()">跳转到oauth2链接</button>
+    <script>
+        $(document).ready(function () {
+            $("#suite_id").val('wwba56bb2235a01241');
+            $("#suite_secret").val('N2ouBhfT1Sm82GdtWtRD-SAL326bJh1QaeWvfzjDLAI');
+            $("#suite_ticket").val('NLaHcCHCIT0etaQD7ubVMD6ZbxdulAI-4iS2UbVI8OQMXNm1BaA87hz40m752fj9');
+        });
+
+    	function getAccesssToken() {
+            var suiteId = $("#suite_id").val();
+            var suiteSecret = $("#suite_secret").val();
+            var suiteTicket = $("#suite_ticket").val();
+
+            var data = {
+                suiteId: suiteId,
+                suiteSecret: suiteSecret,
+                suiteTicket: suiteTicket
+            }
+            console.log(data);
+
+            $.ajax({
+                type: 'POST',
+                timeout: 10000, // 超时时间 10 秒
+                contentType: 'application/json',
+                // dataType: "jsonp",
+                // jsonp: "callback",
+                // jsonpCallback: function(res) {
+                //     console.log(res);
+                // },
+                url: 'http://app-package.weimobdev.com/getAccessToken',
+                data: JSON.stringify(data),
+                success: function (resStr) {
+                    console.log(resStr)
+                },
+                error: function(res) {
+                    console.log("error:");
+                    console.log(res);
+                }
+            })
+        }
+
+        function oauthLink() {
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwba56bb2235a01241&redirect_uri=http://app-package.weimobdev.com&response_type=code&scope=snsapi_privateinfo#wechat_redirect";
+        }
+    </script>
+</body>
+</html>
